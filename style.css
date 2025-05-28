@@ -35,28 +35,6 @@ html, body {
   align-items: center;
   overflow: hidden;
 }
-/* ─── NAV BACKGROUND STRIP ───────────────────────────────────────── */
-.header-banner::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 3rem;           /* adjust to match the height of your nav links */
-  background: #000;       /* solid black bar */
-  z-index: 1;
-}
-
-/* ─── LIFT NAV LINKS ABOVE THE STRIP ───────────────────────────────── */
-.header-banner nav {
-  position: relative;
-  z-index: 2;
-  /* if you already have display/flex on nav, you don’t need to re-declare it */
-  padding: 0.5rem 0;      /* vertical centering in the bar */
-}
-.header-banner nav a {
-  color: #fff;            /* ensure your buttons/titles sit on the black bar */
-}
 
 /* FIRST GIF (RIGHT TO LEFT) */
 .header-gif-right {
@@ -131,6 +109,30 @@ header .title .tagline {
   font-size: 1.2rem;
   color: var(--brand-teal);
   margin-top: 0;
+}
+/* ─── BLACK STRIP BEHIND NAV TITLES ───────────────────────────────── */
+.site-nav {
+  position: relative;          /* create a positioning context */
+  display: flex;               /* or whatever layout you already have */
+  justify-content: space-between;
+  align-items: center;
+}
+.site-nav::before {
+  content: "";
+  position: absolute;
+  top: 50%;                    /* vertically centered */
+  left: 0;
+  width: 100%;
+  height: 3rem;                /* tweak to match your link height */
+  transform: translateY(-50%); /* center that 3rem strip on your links */
+  background: #000;            /* solid black */
+  z-index: 1;
+}
+.site-nav a {
+  position: relative;          /* lift links above the strip */
+  z-index: 2;
+  color: #fff;                 /* ensure contrast on black */
+  /* you can leave your existing font-size, padding, etc */
 }
 
 /* ─── GRID LAYOUT ─────────────────────────────────────────────────── */
