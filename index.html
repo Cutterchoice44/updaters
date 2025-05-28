@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <!-- Prevent browser caching -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma"       content="no-cache">
+  <meta http-equiv="Expires"      content="0">
+  <meta name="viewport"           content="width=device-width, initial-scale=1.0">
+  <title>Cutters Choice Radio</title>
+  
+  <!-- Main stylesheet (bump v= to bust cache) -->
+  <link rel="stylesheet" href="style.css?v=1748422668963">
+
+  <!-- Bebas Neue & FontAwesome -->
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- INLINE NAV STYLING -->
+  <style>
+    :root { --brand-teal: #5A8785; }
+
+    /* ─── NAV ───────────────────────────────────────────────────────── */
+    #main-nav {
+      display: flex !important;
+      justify-content: space-between !important;
+      align-items: center !important;
+      width: 100% !important;
+      padding: 0.56rem 0.75rem !important;
+      margin: 0 !important;
+      box-sizing: border-box !important;
+
+      background-image: url("/images/bricks.png") !important;
+      background-repeat: repeat-x !important;
+      background-position: center center !important;
+      background-size: auto 500px !important;
+
+      border-top:    2px solid var(--brand-teal) !important;
+      border-bottom: 2px solid var(--brand-teal) !important;
+    }
+    #main-nav .nav-item { flex: 1 !important; }
+    #main-nav .nav-left   { text-align: left !important; }
+    #main-nav .nav-center { text-align: center !important; }
+    #main-nav .nav-right  { text-align: right !important; }
+
+    #main-nav a {
+      color: #fff !important;
+      font-family: 'Bebas Neue', sans-serif !important;
+      font-size: 2rem !important;
+      text-transform: uppercase !important;
+      text-decoration: none !important;
+      margin: 0 0.5rem !important;
+    }
+    #main-nav .social-icon {
+      margin-left: 0.5rem !important;
+      font-size: 1.2rem !important;
+      vertical-align: middle !important;
+    }
+    @media (max-width: 768px) {
+      #main-nav .nav-left,
+      #main-nav .nav-right {
+        display: none !important;
+      }
+      #main-nav .nav-center {
+        display: block      !important;
+        width: 100%         !important;
+        text-align: center !important;
+      }
+      #main-nav .nav-center a {
+        display: inline-block !important;
+        margin: 0 auto       !important;
+      }
+    }
+  </style>
+
+  <!-- Other head scripts -->
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js" defer></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-3MSGZZ5QL6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}  
+    gtag('js', new Date());
+    gtag('config', 'G-3MSGZZ5QL6');
+  </script>
+</head>
+
+<body>
+  <!-- ─── HEADER ──────────────────────────────────────────────────────────── -->
+  <header class="header-banner">
+    <div class="header-gif-right"></div>
+    <div class="header-gif-left"></div>
+
+    <div class="logo-container">
+      <img
+        class="logo"
+        src="/images/logo.png"
+        alt="Cutters Choice Radio Logo"
+        loading="lazy"
+      >
+    </div>
+
+    <div class="title">
+      <h1>Cutters Choice Radio</h1>
+      <p class="tagline">The home of relentless flavas and significant bangers!</p>
+    </div>
+
+    <div class="logo-container">
+      <img
+        class="logo"
+        src="/images/logo.png"
+        alt="Cutters Choice Radio Logo"
+        loading="lazy"
+      >
+    </div>
+  </header>
+
+  <!-- ─── NAV ─────────────────────────────────────────────────────────────── -->
+  <nav id="main-nav">
+    <div class="nav-item nav-left">
+   <a href="our-story.html">OUR STORY</a>
+    </div>
+    <div class="nav-item nav-center">
+      <a href="index-ourDJS.html">OUR DJS</a>
+    </div>
+    <div class="nav-item nav-right">
+      <!-- MERCH now points at merch.html -->
+      <a href="merch.html">MERCH</a>
+      <a href="https://facebook.com/cutterschoiceradio" target="_blank" class="social-icon">
+        <i class="fab fa-facebook-f"></i>
+      </a>
+      <a href="https://instagram.com/cutterschoiceradio" target="_blank" class="social-icon">
+        <i class="fab fa-instagram"></i>
+      </a>
+    </div>
+  </nav>
+
+  <!-- ─── MAIN GRID CONTENT ──────────────────────────────────────────────── -->
+  <div class="grid-container">
+    <!-- CHAT SECTION -->
+    <section class="chat">
+      <h2>Cutters Chat</h2>
+      <iframe
+        title="Cutters Choice Radio Chat"
+        src="https://app.radiocult.fm/embed/chat/cutters-choice-radio?theme=midnight&primaryColor=%235A8785&corners=sharp"
+        width="100%" height="700" frameborder="0"
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+        seamless>
+      </iframe>
+      <div class="chat-actions">
+        <button class="popout-btn" onclick="openChatPopup()">Pop Out Chat</button>
+      </div>
+      <div class="rc-user-list-container">
+        <div class="rc-user-list"></div>
+      </div>
+    </section>
+
+    <!-- LIVE PLAYER SECTION -->
+    <section class="live-player">
+      <h2 id="now-dj">Live Now</h2>
+      <div class="player-container">
+        <iframe id="inlinePlayer"
+          title="Cutters Choice Radio player"
+          src="https://app.radiocult.fm/embed/square-player/cutters-choice-radio?theme=midnight&primaryColor=%235A8785&corners=sharp"
+          allow="autoplay" loading="lazy">
+        </iframe>
+        <div id="now-archive">Loading archive show…</div>
+        <button id="popOutBtn" class="popout-btn">Pop Out Player</button>
+        <button id="chatPopupBtn" class="popout-btn chat-btn-mobile" onclick="openChatPopup()">Chat</button>
+      </div>
+      <h3>This Week’s Shows</h3>
+      <img
+        id="now-art"
+        src="https://i.imgur.com/EHhS47F.png"
+        alt="Current DJ Artwork"
+        loading="lazy"
+      >
+    </section>
+
+    <!-- SCHEDULE SECTION -->
+    <section class="schedule">
+      <h2 class="schedule-heading">This Week’s Lineup</h2>
+      <div class="schedule-scroll" id="schedule-container">
+        <p>Loading this week’s schedule…</p>
+      </div>
+    </section>
+
+    <!-- MIXCLOUD ARCHIVE SECTION -->
+    <section class="mixcloud">
+      <h2>Latest Archived Shows</h2>
+      <div id="mixcloud-list"></div>
+      <div class="add-mixcloud">
+        <input id="mixcloud-url" type="text" placeholder="Paste Mixcloud URL here…">
+        <button onclick="addMixcloud()">Add Show</button>
+      </div>
+    </section>
+  </div> <!-- end grid-container -->
+
+  <!-- ─── FOOTER ─────────────────────────────────────────────────────────── -->
+  <footer class="banner"></footer>
+
+  <!-- Your scripts -->
+  <script src="script.js?v=1748422668963" defer></script>
+  <script src="slideshow.js?v=1748422668963" defer></script>
+
+  <!-- GIF‐SWAP SCRIPT: alternates GIF sets every 2 animation loops -->
+  <script>
+    (function(){
+      const right = document.querySelector('.header-gif-right');
+      const left  = document.querySelector('.header-gif-left');
+      let loopCount = 0;
+      const set1 = [
+        "url('/images/Untitled%20design(4).gif')",
+        "url('/images/Untitled%20design(5).gif')"
+      ];
+      const set2 = [
+        "url('/images/Untitled%20design(7).gif')",
+        "url('/images/Untitled%20design(8).gif')"
+      ];
+      let currentSet = set1;
+      right.style.backgroundImage = currentSet[0];
+      left.style.backgroundImage  = currentSet[1];
+      right.addEventListener('animationiteration', () => {
+        loopCount++;
+        if (loopCount % 2 === 0) {
+          currentSet = (currentSet === set1) ? set2 : set1;
+          right.style.backgroundImage = currentSet[0];
+          left.style.backgroundImage  = currentSet[1];
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
