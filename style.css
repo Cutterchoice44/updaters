@@ -126,6 +126,26 @@ header .title .tagline {
   text-transform: uppercase !important;
   text-decoration: none !important;
 }
+/* ─── BLACK STRIP BEHIND NAV TITLES ───────────────────────────────── */
+#main-nav {
+  position: relative !important;    /* establish positioning context */
+}
+
+#main-nav::after {
+  content: "" !important;
+  position: absolute !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 3rem !important;          /* tweak this to your nav’s height */
+  background: #000 !important;      /* solid black */
+  z-index: 0 !important;            /* behind the nav items */
+}
+
+#main-nav .nav-item {
+  position: relative !important;    /* lift each item above the strip */
+  z-index: 1 !important;
+}
 
 /* ─── GRID LAYOUT ─────────────────────────────────────────────────────── */
 .grid-container {
