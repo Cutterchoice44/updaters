@@ -35,6 +35,28 @@ html, body {
   align-items: center;
   overflow: hidden;
 }
+/* ─── NAV BACKGROUND STRIP ───────────────────────────────────────── */
+.header-banner::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3rem;           /* adjust to match the height of your nav links */
+  background: #000;       /* solid black bar */
+  z-index: 1;
+}
+
+/* ─── LIFT NAV LINKS ABOVE THE STRIP ───────────────────────────────── */
+.header-banner nav {
+  position: relative;
+  z-index: 2;
+  /* if you already have display/flex on nav, you don’t need to re-declare it */
+  padding: 0.5rem 0;      /* vertical centering in the bar */
+}
+.header-banner nav a {
+  color: #fff;            /* ensure your buttons/titles sit on the black bar */
+}
 
 /* FIRST GIF (RIGHT TO LEFT) */
 .header-gif-right {
@@ -62,31 +84,6 @@ html, body {
   background: url('/images/Untitled%20design(5).gif') no-repeat center center;
   background-size: cover;
   animation: slideLeftToRight var(--gif-speed) linear infinite;
-}
-/* ─── NAV BACKGROUND STRIP ───────────────────────────────────────── */
-.header-banner::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 3rem;           /* match your nav-link container height */
-  background: #000;       /* black bar */
-  z-index: 1;
-}
-
-/* ─── LIFT NAV LINKS ABOVE THE STRIP ───────────────────────────────── */
-.header-banner nav {
-  position: relative;
-  z-index: 2;
-  display: flex;          /* or your existing nav layout */
-  justify-content: center;
-  align-items: center;
-  gap: 2rem;
-  padding: 0.5rem 0;      /* vertical centering in the bar */
-}
-.header-banner nav a {
-  color: #fff;            /* ensure your links sit on the black bar */
 }
 
 /* ─── ANIMATIONS ───────────────────────────────────────────────────────────── */
