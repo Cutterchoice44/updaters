@@ -111,28 +111,24 @@ header .title .tagline {
   margin-top: 0;
 }
 /* ─── BLACK STRIP BEHIND NAV TITLES ───────────────────────────────── */
-.site-nav {
-  position: relative;          /* create a positioning context */
-  display: flex;               /* or whatever layout you already have */
-  justify-content: space-between;
-  align-items: center;
+#main-nav {
+  position: relative; /* make sure we can absolutely position inside */
 }
-.site-nav::before {
+
+#main-nav::before {
   content: "";
   position: absolute;
-  top: 50%;                    /* vertically centered */
+  bottom: 0;
   left: 0;
   width: 100%;
-  height: 3rem;                /* tweak to match your link height */
-  transform: translateY(-50%); /* center that 3rem strip on your links */
-  background: #000;            /* solid black */
-  z-index: 1;
+  height: 3rem;         /* tweak to match your link height */
+  background: #000;     /* solid black */
+  z-index: 0;
 }
-.site-nav a {
-  position: relative;          /* lift links above the strip */
-  z-index: 2;
-  color: #fff;                 /* ensure contrast on black */
-  /* you can leave your existing font-size, padding, etc */
+
+#main-nav .nav-item {
+  position: relative;   /* lift your items above that strip */
+  z-index: 1;
 }
 
 /* ─── GRID LAYOUT ─────────────────────────────────────────────────── */
