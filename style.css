@@ -133,9 +133,9 @@ header .title .tagline {
   top: 50%;
   left: 0;
   width: 100%;
-  height: 3rem; /* match nav-item height */
+  height: 4.3rem; /* match nav-item height */
   transform: translateY(-50%);
-  background: #000;
+  background: #5A8785;
   z-index: 0;
 }
 #main-nav .nav-item {
