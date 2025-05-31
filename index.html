@@ -10,7 +10,7 @@
   <title>Cutters Choice Radio</title>
   
   <!-- Main stylesheet (bump v= to bust cache) -->
-  <link rel="stylesheet" href="style.css?v=1748649274040">
+  <link rel="stylesheet" href="style.css?v=1748663275527">
 
   <!-- Bebas Neue & FontAwesome -->
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
@@ -63,6 +63,27 @@
     vertical-align: middle !important;
   }
 
+  /* ─── MOBILE OVERRIDE: force ALL THREE links to show at ≤768px ─────────────────── */
+  @media (max-width: 768px) {
+    #main-nav .nav-left,
+    #main-nav .nav-center,
+    #main-nav .nav-right {
+      display: inline-block !important;
+      width: auto !important;
+      margin: 0 0.25rem !important;
+    }
+
+    /* If you want them to wrap onto multiple lines on very narrow phones: */
+    #main-nav {
+      flex-wrap: wrap !important;
+    }
+    #main-nav .nav-item {
+      flex: 100% !important;
+      text-align: center !important;
+      margin: 0.25rem 0 !important;
+    }
+  }
+    
   @media (max-width: 768px) {
     #main-nav .nav-left,
     #main-nav .nav-right {
@@ -206,8 +227,8 @@
   <footer class="banner"></footer>
 
   <!-- Your scripts -->
-  <script src="script.js?v=1748649274040" defer></script>
-  <script src="slideshow.js?v=1748649274040" defer></script>
+  <script src="script.js?v=1748663275527" defer></script>
+  <script src="slideshow.js?v=1748663275527" defer></script>
 
   <!-- GIF‐SWAP SCRIPT: alternates GIF sets every 2 animation loops -->
   <script>
