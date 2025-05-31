@@ -370,6 +370,13 @@ section h2::after {
 
 /* ─── MOBILE LAYOUT OVERWRITES ──────────────────────────────────── */
 @media (max-width: 768px) {
+  /* ─── FORCE ALL THREE NAV ITEMS TO SHOW ON MOBILE ─────────────────── */
+  #main-nav .nav-left,
+  #main-nav .nav-center,
+  #main-nav .nav-right {
+    display: inline-block !important;
+  }
+
   /* Header adjustments */
   header {
     flex-direction: column;
