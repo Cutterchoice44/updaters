@@ -33,13 +33,13 @@
       margin: 0 !important;
       box-sizing: border-box !important;
 
-      /* Main teal background */
+      /* Solid teal background */
       background-color: var(--brand-teal) !important;
       /* Sit on top of underlying content */
       position: relative;
       z-index: 1000;
 
-      /* Thin teal lines above and below the teal bar */
+      /* Thin teal lines above and below the main teal bar */
       border-top:    2px solid var(--brand-teal) !important;
       border-bottom: 2px solid var(--brand-teal) !important;
     }
@@ -62,11 +62,13 @@
       vertical-align: middle !important;
     }
 
-    /* ─── MOBILE OVERRIDE: make nav horizontal and shrink font at ≤768px ─────────────────── */
+    /* ─── MOBILE OVERRIDE: horizontal nav + smaller fonts at ≤768px ─────────────────── */
     @media (max-width: 768px) {
       #main-nav {
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        /* prevent wrapping onto multiple lines */
         flex-wrap: nowrap !important;
-        justify-content: space-around !important;
       }
       #main-nav .nav-item {
         flex: 1 !important;
@@ -75,13 +77,13 @@
       }
       #main-nav a {
         font-size: 1.2rem !important;
-        margin: 0 !important;
+        margin: 0 0.25rem !important;
       }
-      /* Hide social icons on mobile if desired; comment out if you want them visible:
+      /* Slightly reduce social-icon size on mobile */
       #main-nav .social-icon {
-        display: none !important;
+        font-size: 1rem !important;
+        margin-left: 0.25rem !important;
       }
-      */
     }
   </style>
 
