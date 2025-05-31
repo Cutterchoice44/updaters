@@ -1,591 +1,316 @@
-/* ─── RESET & BASE STYLES ─────────────────────────────────────────── */
-*, *::before, *::after {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+// 1) GLOBAL CONFIG & MOBILE DETECTION
+const API_KEY           = "pk_YOUR_ACTUAL_KEY_HERE";
+const STATION_ID        = "cutters-choice-radio";
+const BASE_URL          = "https://api.radiocult.fm/api";
+const FALLBACK_ART      = "/images/archives-logo.jpeg";
+const MIXCLOUD_PASSWORD = "cutters44";
+const isMobile          = /Mobi|Android/i.test(navigator.userAgent);
+
+let chatPopupWindow;
+let visitorId;
+
+// ADMIN-MODE TOGGLE (show remove links when URL has “#admin”)
+if (window.location.hash === "#admin") {
+  document.body.classList.add("admin-mode");
 }
 
-:root {
-  --brand-teal: #5A8785;
-  --bg-dark: #000;
-  --text-light: #fafafa;
-  /* Adjustable GIF Settings */
-  --gif-height: 270px;
-  --gif-width: 12%;
-  --gif-speed: 12s;
-  --gif-opacity: 1.6;
+// 2) BAN LOGIC (FingerprintJS v3+)
+function blockChat() {
+  document.getElementById("popOutBtn")?.remove();
+  document.getElementById("chatModal")?.remove();
+  const cont = document.getElementById("radiocult-chat-container");
+  if (cont) cont.innerHTML = "<p>Chat disabled.</p>";
 }
 
-html, body {
-  height: 100%;
-  background: var(--bg-dark);
-  color: var(--text-light);
-  font-family: Arial, sans-serif;
-  line-height: 1.2;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+async function initBanCheck() {
+  if (!window.FingerprintJS) return;
+  try {
+    const fp = await FingerprintJS.load();
+    const { visitorId: id } = await fp.get();
+    visitorId = id;
 
-/* ─── HEADER WITH ANIMATED GIFS ────────────────────────────────────────────── */
-.header-banner {
-  position: relative;
-  height: var(--gif-height);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  overflow: hidden;
-}
-
-/* FIRST GIF (RIGHT TO LEFT) */
-.header-gif-right {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  height: var(--gif-height);
-  width: var(--gif-width);
-  opacity: var(--gif-opacity);
-  z-index: 0;
-  background: url('/images/Untitled%20design(4).gif') no-repeat center center;
-  background-size: cover;
-  animation: slideRightToLeft var(--gif-speed) linear infinite;
-}
-
-/* SECOND GIF (LEFT TO RIGHT) */
-.header-gif-left {
-  position: absolute;
-  top: 0;
-  right: 50%;
-  height: var(--gif-height);
-  width: var(--gif-width);
-  opacity: var(--gif-opacity);
-  z-index: 0;
-  background: url('/images/Untitled%20design(5).gif') no-repeat center center;
-  background-size: cover;
-  animation: slideLeftToRight var(--gif-speed) linear infinite;
-}
-
-/* ─── ANIMATIONS ───────────────────────────────────────────────────────────── */
-@keyframes slideRightToLeft {
-  0%   { transform: translateX(100vw); }
-  100% { transform: translateX(-100vw); }
-}
-@keyframes slideLeftToRight {
-  0%   { transform: translateX(-100vw); }
-  100% { transform: translateX(100vw); }
-}
-
-header::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-color: rgba(0, 0, 0, 0.4);
-  z-index: 0;
-}
-
-header .logo-container,
-header .title {
-  position: relative;
-  z-index: 1;
-}
-
-header .logo {
-  height: 180px;
-  margin-bottom: 0.3rem;
-  margin-left: 0.7rem; 
-}
-
-header .title {
-  flex: 1 1 auto;
-  text-align: center;
-}
-
-header .title h1 {
-  font-size: 2rem;
-  margin: 0;
-  font-family: 'Bebas Neue', sans-serif;
-}
-
-header .title .tagline {
-  font-size: 1.2rem;
-  color: var(--brand-teal);
-  margin-top: 0;
-}
-
-/* ─── NAVIGATION BAR ───────────────────────────────────────────────────── */
-#main-nav {
-  position: relative;
-  display: flex !important;
-  justify-content: space-between !important;
-  align-items: center !important;
-  width: 100% !important;
-  padding: 0.25rem 0.75rem !important;
-  background-repeat: repeat-x !important;
-  background-position: center center !important;
-  background-size: auto 500px !important;
-  border-top: 2px solid var(--brand-teal) !important;
-  border-bottom: 2px solid var(--brand-teal) !important;
-  /* draw black strip behind items */
-}
-#main-nav::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 0;
-  width: 100%;
-  height: 2.6rem; /* match nav-item height */
-  transform: translateY(-50%);
-  background: #5A8785;
-  z-index: 0;
-}
-#main-nav .nav-item {
-  position: relative;
-  z-index: 1;
-}
-#main-nav .nav-item a {
-  color: #fff !important;
-  font-size: 2rem !important;
-  text-transform: uppercase !important;
-  text-decoration: none !important;
-}
-
-/* ─── GRID LAYOUT ─────────────────────────────────────────────────── */
-.grid-container {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1rem;
-  padding: 0.6rem;
-}
-
-/* ─── SLIDESHOW ───────────────────────────────────────────────────── */
-#slideshow {
-  margin: 0 auto;
-  border: 2px solid var(--brand-teal);
-  box-sizing: border-box;
-  transform: scale(1.2);
-  transform-origin: center;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1rem;
-}
-#slideshow > * {
-  height: 100%;
-}
-
-/* ─── SECTION & TYPOGRAPHY ────────────────────────────────────────── */
-section {
-  background: #000;
-  border: 2px solid var(--brand-teal);
-  border-radius: 6px;
-  padding: 0.5rem;
-}
-section h2 {
-  position: relative;
-  margin-bottom: 1rem;
-  color: var(--brand-teal);
-  text-align: center;
-  padding-bottom: 0.6rem;
-}
-section h2::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  height: 4px;
-  background: var(--brand-teal);
-  width: 0;
-  animation: drawLineReverse 2s ease-out forwards;
-}
-@keyframes drawLineReverse {
-  to { width: 100%; }
-}
-
-/* ─── CHAT IFRAME & ACTIONS ──────────────────────────────────────── */
-.chat iframe {
-  width: 100%;
-  height: 1200px;
-  border: none;
-  border-radius: 4px;
-  margin-top: 0.4rem;
-}
-.chat-actions {
-  text-align: center;
-}
-.popout-btn {
-  display: inline-block;
-  margin: 0.5rem auto;
-  padding: 0.5rem 2rem;
-  font-size: 1rem;
-  background: var(--brand-teal);
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-/* ─── LIVE PLAYER ───────────────────────────────────────────────── */
-.live-player {
-  background: #000;
-  border: 2px solid var(--brand-teal);
-  border-radius: 6px;
-  padding: 0.5rem;
-  text-align: center;
-}
-.live-player iframe,
-.live-player audio {
-  width: 100%;
-  height: 300px;
-  max-height: 55vh;
-  border: none;
-  border-radius: 4px;
-  margin: 0 auto 1rem;
-  display: block;
-}
-.player-container {
-  max-width: 1000px;
-  margin: 0 auto;
-}
-#now-archive {
-  font-weight: bold;
-  color: var(--brand-teal);
-  font-size: 1.5rem;
-  margin: 0.3rem 0 1rem;
-}
-
-/* ─── CURRENT DJ ARTWORK ───────────────────────────────────────── */
-#now-art {
-  width: 100%;
-  max-width: 450px;
-  border-radius: 8px;
-  object-fit: cover;
-  display: block;
-  margin: 1rem auto;
-}
-
-/* ─── MIXCLOUD ARCHIVE ─────────────────────────────────────────── */
-.mixcloud {
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  padding: 0.5rem;
-}
-#mixcloud-list {
-  flex: 1;
-  overflow-y: auto;
-  max-height: 1900px;
-  padding-right: 5px;
-  scroll-behavior: smooth;
-  margin-top: 0.4rem;
-}
-#mixcloud-list iframe {
-  width: 100%;
-  height: 120px;
-  margin-bottom: 0.5rem;
-  border: none;
-}
-.add-mixcloud {
-  text-align: center;
-  padding-top: 0.5rem;
-}
-.add-mixcloud input,
-.add-mixcloud button {
-  font-size: 1rem;
-}
-.add-mixcloud input {
-  width: 80%;
-  max-width: 600px;
-  padding: 0.5rem;
-}
-.add-mixcloud button {
-  margin-top: 0.5rem;
-  padding: 0.5rem 2rem;
-  background: var(--brand-teal);
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-/* ─── WEEKLY SCHEDULE ──────────────────────────────────────────── */
-.schedule {
-  background: #111;
-  border-radius: 6px;
-  padding: 0 1rem 1rem;
-  overflow-y: auto;
-  font-size: 1.4rem;
-  line-height: 1.4;
-}
-.schedule-heading {
-  position: sticky;
-  top: 0;
-  background: #111;
-  z-index: 10;
-  padding: 0.4rem 0;
-  font-size: 1.5rem;
-  border-bottom: 0.4px solid var(--brand-teal);
-}
-
-/* ─── FOOTER BANNER ────────────────────────────────────────────── */
-.banner {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-  background: var(--brand-teal);
-  padding: 1rem;
-}
-.banner a {
-  flex: 1;
-  text-align: center;
-  text-decoration: none;
-  color: #000;
-  font-weight: 700;
-  font-size: 1.4rem;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-  padding: 0.5rem 1rem;
-}
-.banner a:hover {
-  color: var(--text-light);
-}
-
-/* ─── RESPONSIVE GIF SIZING ─────────────────────────────────────── */
-@media (max-width: 1200px) {
-  :root {
-    --gif-height: 200px;
-    --gif-width: 16%;
-  }
-}
-@media (max-width: 768px) {
-  :root {
-    --gif-height: 150px;
-    --gif-width: 20%;
-  }
-}
-@media (max-width: 480px) {
-  :root {
-    --gif-height: 120px;
-    --gif-width: 30%;
+    const res = await fetch("/api/chat/checkban", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ visitorId })
+    });
+    const { banned } = await res.json();
+    if (banned) blockChat();
+  } catch (err) {
+    console.warn("Ban check error:", err);
   }
 }
 
-/* ─── MOBILE LAYOUT OVERWRITES ──────────────────────────────────── */
-@media (max-width: 768px) {
-  /* Force all three nav items to remain visible */
-  #main-nav .nav-left,
-  #main-nav .nav-right {
-    display: block !important;
+async function sendBan() {
+  if (!visitorId) return;
+  try {
+    await fetch("/api/chat/ban", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ visitorId })
+    });
+    blockChat();
+  } catch (err) {
+    console.error("Error sending ban:", err);
   }
+}
+window.sendBan = sendBan;
 
-  /* Header adjustments */
-  header {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-  header .logo {
-    max-width: 180px;
-    margin-bottom: 1.5rem;
-  }
-  header .title h1 {
-    font-size: 1.8rem;
-    line-height: 1.2;
-  }
-  header .title .tagline {
-    font-size: 1rem;
-  }
+// 3) HELPERS
+function createGoogleCalLink(title, startUtc, endUtc) {
+  if (!startUtc || !endUtc) return "#";
+  const fmt = dt => new Date(dt).toISOString().replace(/[-:]|\.\d{3}/g, "");
+  return [
+    "https://calendar.google.com/calendar/render?action=TEMPLATE",
+    `&text=${encodeURIComponent(title)}`,
+    `&dates=${fmt(startUtc)}/${fmt(endUtc)}`,
+    `&details=Tune in live at https://cutterschoiceradio.com`,
+    `&location=https://cutterschoiceradio.com`
+  ].join("");
+}
 
-  /* Single-column flow */
-  .grid-container {
-    display: flex;
-    flex-direction: column;
-    padding: 0 0.5rem;
-  }
+async function rcFetch(path) {
+  const res = await fetch(BASE_URL + path, {
+    headers: { "x-api-key": API_KEY }
+  });
+  if (!res.ok) throw new Error(`Fetch error ${res.status}`);
+  return res.json();
+}
 
-  /* Remove Mixcloud entirely on mobile */
-  .mixcloud {
-    display: none !important;
-  }
+function shuffleIframesDaily() {
+  const container = document.getElementById("mixcloud-list");
+  if (!container) return;
+  const HOUR = 60 * 60 * 1000;
+  const last = +localStorage.getItem("lastShuffleTime");
+  if (last && Date.now() - last < HOUR) return;
 
-  /* Re‐order so that Live → Chat → Schedule */
-  .live-player { order: 1; }
-  .chat        { order: 2; }
-  .schedule    { order: 3; }
+  const iframes = Array.from(container.querySelectorAll("iframe"));
+  for (let i = iframes.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    container.appendChild(iframes[j]);
+    iframes.splice(j, 1);
+  }
+  localStorage.setItem("lastShuffleTime", Date.now());
+}
 
-  /* Tweak chat iframe */
-  .chat iframe {
-    height: 70vh;
-    max-height: 70vh;
-  }
+// 4) MIXCLOUD ARCHIVES
+async function loadArchives() {
+  try {
+    const res = await fetch("get_archives.php");
+    if (!res.ok) throw new Error("Failed to load archives");
+    const archives = await res.json();
+    const container = document.getElementById("mixcloud-list");
+    if (!container) return;
 
-  /* Schedule stays scrollable */
-  .schedule {
-    overflow-y: auto;
-  }
+    container.innerHTML = "";
+    archives.forEach((entry, idx) => {
+      const feed = encodeURIComponent(entry.url);
+      const item = document.createElement("div");
+      item.className = "mixcloud-item";
 
-  /* Hide any leftover desktop‐only buttons */
-  #popOutBtn,
-  header .logo-container:last-of-type {
-    display: none;
-  }
+      const iframe = document.createElement("iframe");
+      iframe.className = "mixcloud-iframe";
+      iframe.src = `https://www.mixcloud.com/widget/iframe/?hide_cover=1&light=1&feed=${feed}`;
+      iframe.loading = "lazy";
+      iframe.width = "100%";
+      iframe.height = "120";
+      iframe.frameBorder = "0";
+      item.appendChild(iframe);
 
-  /* Chat-modal remains available */
-  #chatModal {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100vw; height: 100vh;
-    background: rgba(0,0,0,0.9);
-    display: none;
-    z-index: 9999;
-    justify-content: center;
-    align-items: center;
-  }
-  #chatModal .modal-content {
-    width: 100%; height: 100%;
-  }
-  #chatModal iframe {
-    width: 100%; height: 100%;
-    border: none; border-radius: 4px;
-  }
-  #chatModal .close-btn {
-    position: absolute;
-    top: 1rem; right: 1rem;
-    background: var(--brand-teal);
-    color: #fff;
-    border: none;
-    padding: 0.5rem;
-    border-radius: 4px;
-    font-size: 1rem;
-    cursor: pointer;
-    z-index: 10000;
+      if (!isMobile) {
+        const remove = document.createElement("a");
+        remove.href = "#";
+        remove.className = "remove-link";
+        remove.textContent = "Remove show";
+        remove.addEventListener("click", e => { e.preventDefault(); deleteMixcloud(idx); });
+        item.appendChild(remove);
+      }
+      container.prepend(item);
+    });
+    shuffleIframesDaily();
+  } catch (err) {
+    console.error("Archive load error:", err);
   }
 }
 
-/* ─── DESKTOP LAYOUT OVERWRITES ──────────────────────────────────── */
-@media (min-width: 600px) {
-  .grid-container {
-    grid-template-columns: 1fr 1.5fr;
-  }
-  .banner {
-    flex-direction: row;
-    justify-content: space-between;
-  }
-}
-@media (min-width: 769px) {
-  .live-player iframe,
-  .live-player audio {
-    height: 600px;
-    max-height: 150vh;
-  }
-  #slideshow {
-    grid-column: 1 / -1;
-    width: 100%;
-    height: 500px;
-    transform: none;
-    max-width: none;
-    max-height: 100vh;
-  }
-  #slideshow > * {
-    height: 100%;
-  }
-  .grid-container {
-    grid-template-columns: 1fr 1.5fr 1fr 1fr;
-  }
-  .chat iframe {
-    height: 1200px;
-  }
-}
-@media (min-width: 900px) {
-  header .title h1 {
-    font-size: 8rem;
-  }
-  header .title .tagline {
-    font-size: 2.45rem;
-  }
-  header .logo {
-    height: 200px;
-    max-width: 270px;
-  }
-  #now-art {
-    max-width: 600px;
-  }
-}
-/* ─── DESKTOP ONLY: HIDE THE CHAT-SECTION POP-OUT BUTTON ────────────── */
-@media only screen and (min-width: 769px) {
-  /* this targets the extra pop-out inside the chat section */
-  section.chat .chat-actions {
-    display: none !important;
+async function addMixcloud() {
+  const input = document.getElementById("mixcloud-url");
+  if (!input) return;
+  const url = input.value.trim();
+  if (!url) return alert("Please paste a valid Mixcloud URL");
+
+  const pw = prompt("Enter archive password:");
+  if (pw !== MIXCLOUD_PASSWORD) return alert("Incorrect password");
+
+  try {
+    const form = new FormData();
+    form.append("url", url);
+    form.append("password", pw);
+    const res = await fetch("add_archive.php", { method: "POST", body: form });
+    if (!res.ok) throw new Error((await res.json()).error || res.statusText);
+    input.value = "";
+    await loadArchives();
+  } catch (err) {
+    alert("Add failed: " + err.message);
   }
 }
 
-/* ─── MIXCLOUD DELETE LINK STYLES ─────────────────────────────────────────── */
-.mixcloud-item { position: relative; }
-.remove-link {
-  display: block;
-  text-align: right;
-  font-size: 0.9rem;
-  color: var(--brand-teal);
-  text-decoration: underline;
-  margin-top: 0.3rem;
-  cursor: pointer;
-}
-.remove-link:hover {
-  color: #5A8785;
-  text-decoration: #5A8785;
-}
-
-/* ─── MOBILE ONLY: hide in-chat pop-out, show player pop-out ───────── */
-@media (max-width: 768px) {
-  /* hide the duplicate button under the chat iframe */
-  section.chat .chat-actions {
-    display: none !important;
-  }
-
-  /* show your mobile chat button under the player */
-  #chatPopupBtn {
-    display: inline-block !important;
-    margin: 0.5rem auto 1rem !important;
+async function deleteMixcloud(index) {
+  const pw = prompt("Enter archive password:");
+  if (pw !== MIXCLOUD_PASSWORD) return alert("Incorrect password");
+  try {
+    const form = new FormData();
+    form.append("index", index);
+    form.append("password", pw);
+    const res = await fetch("delete_archive.php", { method: "POST", body: form });
+    if (!res.ok) throw new Error((await res.json()).error || res.statusText);
+    await loadArchives();
+  } catch (err) {
+    alert("Delete failed: " + err.message);
   }
 }
 
-/* ─── DESKTOP ONLY: show in-chat pop-out, hide player pop-out ───────── */
-@media (min-width: 769px) {
-  /* show the built-in chat button under the chat iframe */
-  section.chat .chat-actions {
-    display: block !important;
-  }
-
-  /* hide your extra button under the player */
-  #chatPopupBtn {
-    display: none !important;
-  }
-}
-/* ─── MIXCLOUD DELETE LINK STYLES ─────────────────────────────────── */
-.mixcloud-item { position: relative; }
-/* hide for everyone by default */
-.remove-link {
-  display: none !important;
-  /* (you can drop the rest of the styling if you like,
-     or leave text-decoration/color so it’s ready to go) */
-  text-align: right;
-  font-size: 0.9rem;
-  color: var(--brand-teal);
-  text-decoration: underline;
-  margin-top: 0.3rem;
-  cursor: pointer;
-}
-
-/* only show when in admin mode */
-.admin-mode .remove-link {
-  display: inline-block !important;
-}
-
-/* ─── MOBILE-ONLY LOGO SIZING ──────────────────────────────────── */
-@media only screen and (max-width: 768px) {
-  header .logo {
-    /* smaller height for mobile */
-    height: 100px !important;
-    max-width: 100px !important;
-    margin-bottom: 1.5rem !important;
-    width: auto !important;
+// 5) DATA FETCHERS
+async function fetchLiveNow() {
+  try {
+    const { result } = await rcFetch(`/station/${STATION_ID}/schedule/live`);
+    const { metadata: md = {}, content: ct = {} } = result;
+    document.getElementById("now-dj").textContent =
+      md.artist ? `${md.artist} – ${md.title}` : ct.title || "No live show";
+    document.getElementById("now-art").src = md.artwork_url || FALLBACK_ART;
+  } catch (e) {
+    console.error("Live fetch error:", e);
+    document.getElementById("now-dj").textContent = "Error fetching live info";
+    document.getElementById("now-art").src = FALLBACK_ART;
   }
 }
+
+async function fetchWeeklySchedule() {
+  const container = document.getElementById("schedule-container");
+  if (!container) return;
+  container.innerHTML = "<p>Loading this week’s schedule…</p>";
+  try {
+    const now = new Date();
+    const then = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
+    const { schedules } = await rcFetch(
+      `/station/${STATION_ID}/schedule?startDate=${now.toISOString()}&endDate=${then.toISOString()}`
+    );
+    if (!schedules.length) {
+      container.innerHTML = "<p>No shows scheduled this week.</p>";
+      return;
+    }
+    container.innerHTML = "";
+    const fmt = iso =>
+      new Date(iso).toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" });
+    const byDay = schedules.reduce((acc, ev) => {
+      const day = new Date(ev.startDateUtc).toLocaleDateString("en-GB", {
+        weekday: "long", day: "numeric", month: "short"
+      });
+      (acc[day] = acc[day] || []).push(ev);
+      return acc;
+    }, {});
+    for (const [day, evs] of Object.entries(byDay)) {
+      const h3 = document.createElement("h3"); h3.textContent = day;
+      container.appendChild(h3);
+      const ul = document.createElement("ul"); ul.style.listStyle = "none"; ul.style.padding = "0";
+      evs.forEach(ev => {
+        const li = document.createElement("li"); li.style.marginBottom = "1rem";
+        const wrap = document.createElement("div"); wrap.style.display = "flex"; wrap.style.alignItems = "center"; wrap.style.gap = "8px";
+        const t = document.createElement("strong"); t.textContent = `${fmt(ev.startDateUtc)}–${fmt(ev.endDateUtc)}`; wrap.appendChild(t);
+        const artUrl = ev.metadata?.artwork?.default || ev.metadata?.artwork?.original;
+        if (artUrl) {
+          const img = document.createElement("img");
+          img.src = artUrl; img.alt = `${ev.title} artwork`;
+          img.style.cssText = "width:30px;height:30px;object-fit:cover;border-radius:3px;";
+          wrap.appendChild(img);
+        }
+        const span = document.createElement("span"); span.textContent = ev.title; wrap.appendChild(span);
+        li.appendChild(wrap); ul.appendChild(li);
+      });
+      container.appendChild(ul);
+    }
+  } catch (e) {
+    console.error("Schedule error:", e);
+    document.getElementById("schedule-container").innerHTML = "<p>Error loading schedule.</p>";
+  }
+}
+
+async function fetchNowPlayingArchive() {
+  try {
+    const { result } = await rcFetch(`/station/${STATION_ID}/schedule/live`);
+    const { metadata: md = {}, content: ct = {} } = result;
+    let text = "Now Playing: ";
+    if (md.title) text += md.artist ? `${md.artist} – ${md.title}` : md.title;
+    else if (md.filename) text += md.filename;
+    else if (ct.title) text += ct.title;
+    else if (ct.name) text += ct.name;
+    else text += "Unknown Show";
+    document.getElementById("now-archive").textContent = text;
+  } catch (e) {
+    console.error("Archive-now error:", e);
+    document.getElementById("now-archive").textContent = "Unable to load archive show";
+  }
+}
+
+// 6) ADMIN & UI ACTIONS (simplified)
+function openChatPopup() {
+  const url = `https://app.radiocult.fm/embed/chat/${STATION_ID}?theme=midnight&primaryColor=%235A8785&corners=sharp`;
+  if (isMobile) window.open(url, "CuttersChatMobile", "noopener");
+  else if (chatPopupWindow && !chatPopupWindow.closed) chatPopupWindow.focus();
+  else chatPopupWindow = window.open(url, "CuttersChatPopup", "width=400,height=700,resizable=yes,scrollbars=yes");
+}
+
+function closeChatModal() {}
+
+// 7) BANNER GIF ROTATION
+const rightEl = document.querySelector(".header-gif-right");
+const leftEl  = document.querySelector(".header-gif-left");
+if (rightEl && leftEl) {
+  const sets = [
+    { right: "/images/Untitled design(4).gif", left: "/images/Untitled design(5).gif" },
+    { right: "/images/Untitled design(7).gif", left: "/images/Untitled design(8).gif" }
+  ];
+  let current=0, sweepCount=0;
+  const speedMs = (parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--gif-speed").replace("s",""))||12)*1000;
+  setInterval(() => {
+    sweepCount++;
+    if (sweepCount>=2) { current=(current+1)%sets.length; rightEl.style.backgroundImage=`url('${sets[current].right}')`; leftEl.style.backgroundImage=`url('${sets[current].left}')`; sweepCount=0; }
+  }, speedMs);
+}
+
+// 8) INITIALIZATION
+document.addEventListener("DOMContentLoaded", () => {
+  fetchLiveNow();
+  fetchWeeklySchedule();
+  fetchNowPlayingArchive();
+  loadArchives();
+
+  // remove old chat-actions on mobile
+  if (window.matchMedia("(max-width: 768px)").matches) {
+    document.querySelectorAll("section.chat .chat-actions").forEach(el=>el.remove());
+  }
+
+  // auto-refresh live/archive
+  setInterval(fetchLiveNow,30000);
+  setInterval(fetchNowPlayingArchive,30000);
+
+  if (isMobile) document.querySelector(".mixcloud")?.remove();
+
+  // inject mixcloud widget
+  const mcScript=document.createElement("script"); mcScript.src="https://widget.mixcloud.com/widget.js"; mcScript.async=true; document.body.appendChild(mcScript);
+
+  // pop-out player
+  document.getElementById("popOutBtn")?.addEventListener("click",()=>{
+    const src=document.getElementById("inlinePlayer").src;
+    const w=window.open("","CCRPlayer","width=400,height=200,resizable=yes");
+    w.document.write(`
+      <!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Cutters Choice Player</title><style>body{margin:0;background:#111;display:flex;align-items:center;justify-content:center;height:100vh}iframe{width:100%;height:180px;border:none;border-radius:4px}</style></head><body><iframe src="${src}" allow="autoplay"></iframe></body></html>`);
+    w.document.close();
+  });
+
+  // clean up chat ghosts
+  const ul=document.querySelector(".rc-user-list"); if(ul){ new MutationObserver(()=>{ ul.querySelectorAll("li").forEach(li=>{ if(!li.textContent.trim()) li.remove(); }); }).observe(ul,{childList:true}); }
+
+  // ban check
+  if("requestIdleCallback" in window) requestIdleCallback(initBanCheck,{timeout:2000}); else setTimeout(initBanCheck,2000);
+});
