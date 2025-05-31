@@ -33,21 +33,26 @@
     width: 100% !important;
     padding: 0.25rem 0.75rem !important;
     margin: 0 !important;
-    box-sizing: border-box 
+    box-sizing: border-box !important;
 
-    /* Force a solid teal background so bricks never show */
+    /* Force a solid teal bar behind the links */
     background-color: var(--brand-teal) !important;
-    /* Sit on top of any underlying brick image */
     position: relative;
     z-index: 1000;
 
     border-top:    2px solid var(--brand-teal) !important;
     border-bottom: 2px solid var(--brand-teal) !important;
   }
-  #main-nav .nav-item { flex: 1 !important; }
-  #main-nav .nav-left   { text-align: left !important; }
+
+  /* Each nav‐item sits on top of that solid bar */
+  #main-nav .nav-item {
+    flex: 1 !important;
+    position: relative;
+    z-index: 1;
+  }
+  #main-nav .nav-left   { text-align: left   !important; }
   #main-nav .nav-center { text-align: center !important; }
-  #main-nav .nav-right  { text-align: right !important; }
+  #main-nav .nav-right  { text-align: right  !important; }
 
   #main-nav a {
     color: #fff !important;
@@ -72,8 +77,20 @@
       width: auto !important;
       margin: 0 0.25rem !important;
     }
-    
-  @media (max-width: 768px) {
+
+    /* If you want them to wrap onto multiple lines on very narrow phones: */
+    #main-nav {
+      flex-wrap: wrap !important;
+    }
+    #main-nav .nav-item {
+      flex: 100% !important;
+      text-align: center !important;
+      margin: 0.25rem 0 !important;
+    }
+  }
+
+  /* ─── DESKTOP: no changes needed here ───────────────────────────────────────── */
+  @media (min-width: 769px) {
     #main-nav .nav-left,
     #main-nav .nav-right {
       display: none !important;
