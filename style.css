@@ -71,8 +71,7 @@
       display: inline-block !important;
       width: auto !important;
       margin: 0 0.25rem !important;
-   }
-  }
+    }
     
   @media (max-width: 768px) {
     #main-nav .nav-left,
