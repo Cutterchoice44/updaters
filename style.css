@@ -1,267 +1,585 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <!-- Prevent browser caching -->
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <meta http-equiv="Pragma"       content="no-cache">
-  <meta http-equiv="Expires"      content="0">
-  <meta name="viewport"           content="width=device-width, initial-scale=1.0">
-  <title>Cutters Choice Radio</title>
-  
-  <!-- Main stylesheet (bump v= to bust cache) -->
-  <link rel="stylesheet" href="style.css?v=1748662864315">
+/* ─── RESET & BASE STYLES ─────────────────────────────────────────── */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-  <!-- Bebas Neue & FontAwesome -->
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
-  <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+:root {
+  --brand-teal: #5A8785;
+  --bg-dark: #000;
+  --text-light: #fafafa;
+  /* Adjustable GIF Settings */
+  --gif-height: 270px;
+  --gif-width: 12%;
+  --gif-speed: 12s;
+  --gif-opacity: 1.6;
+}
 
-  <!-- INLINE NAV STYLING -->
-  <style>
-    :root { --brand-teal: #5A8785; }
+html, body {
+  height: 100%;
+  background: var(--bg-dark);
+  color: var(--text-light);
+  font-family: Arial, sans-serif;
+  line-height: 1.2;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
-    /* ─── NAV ───────────────────────────────────────────────────────── */
-   <style>
-  :root { --brand-teal: #5A8785; }
+/* ─── HEADER WITH ANIMATED GIFS ────────────────────────────────────────────── */
+.header-banner {
+  position: relative;
+  height: var(--gif-height);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  overflow: hidden;
+}
 
-  /* ─── NAV ───────────────────────────────────────────────────────── */
-  #main-nav {
-    display: flex !important;
-    justify-content: space-between !important;
-    align-items: center !important;
-    width: 100% !important;
-    padding: 0.25rem 0.75rem !important;
-    margin: 0 !important;
-    box-sizing: border-box !important;
+/* FIRST GIF (RIGHT TO LEFT) */
+.header-gif-right {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  height: var(--gif-height);
+  width: var(--gif-width);
+  opacity: var(--gif-opacity);
+  z-index: 0;
+  background: url('/images/Untitled%20design(4).gif') no-repeat center center;
+  background-size: cover;
+  animation: slideRightToLeft var(--gif-speed) linear infinite;
+}
 
-    /* Force a solid teal bar behind the links */
-    background-color: var(--brand-teal) !important;
-    position: relative;
-    z-index: 1000;
+/* SECOND GIF (LEFT TO RIGHT) */
+.header-gif-left {
+  position: absolute;
+  top: 0;
+  right: 50%;
+  height: var(--gif-height);
+  width: var(--gif-width);
+  opacity: var(--gif-opacity);
+  z-index: 0;
+  background: url('/images/Untitled%20design(5).gif') no-repeat center center;
+  background-size: cover;
+  animation: slideLeftToRight var(--gif-speed) linear infinite;
+}
 
-    border-top:    2px solid var(--brand-teal) !important;
-    border-bottom: 2px solid var(--brand-teal) !important;
+/* ─── ANIMATIONS ───────────────────────────────────────────────────────────── */
+@keyframes slideRightToLeft {
+  0%   { transform: translateX(100vw); }
+  100% { transform: translateX(-100vw); }
+}
+@keyframes slideLeftToRight {
+  0%   { transform: translateX(-100vw); }
+  100% { transform: translateX(100vw); }
+}
+
+header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 0;
+}
+
+header .logo-container,
+header .title {
+  position: relative;
+  z-index: 1;
+}
+
+header .logo {
+  height: 180px;
+  margin-bottom: 0.3rem;
+  margin-left: 0.7rem; 
+}
+
+header .title {
+  flex: 1 1 auto;
+  text-align: center;
+}
+
+header .title h1 {
+  font-size: 2rem;
+  margin: 0;
+  font-family: 'Bebas Neue', sans-serif;
+}
+
+header .title .tagline {
+  font-size: 1.2rem;
+  color: var(--brand-teal);
+  margin-top: 0;
+}
+
+/* ─── NAVIGATION BAR ───────────────────────────────────────────────────── */
+#main-nav {
+  position: relative;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  width: 100% !important;
+  padding: 0.25rem 0.75rem !important;
+  background-repeat: repeat-x !important;
+  background-position: center center !important;
+  background-size: auto 500px !important;
+  border-top: 2px solid var(--brand-teal) !important;
+  border-bottom: 2px solid var(--brand-teal) !important;
+  /* draw black strip behind items */
+}
+#main-nav::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 2.6rem; /* match nav-item height */
+  transform: translateY(-50%);
+  background: #5A8785;
+  z-index: 0;
+}
+#main-nav .nav-item {
+  position: relative;
+  z-index: 1;
+}
+#main-nav .nav-item a {
+  color: #fff !important;
+  font-size: 2rem !important;
+  text-transform: uppercase !important;
+  text-decoration: none !important;
+}
+
+/* ─── GRID LAYOUT ─────────────────────────────────────────────────── */
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  padding: 0.6rem;
+}
+
+/* ─── SLIDESHOW ───────────────────────────────────────────────────── */
+#slideshow {
+  margin: 0 auto;
+  border: 2px solid var(--brand-teal);
+  box-sizing: border-box;
+  transform: scale(1.2);
+  transform-origin: center;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+#slideshow > * {
+  height: 100%;
+}
+
+/* ─── SECTION & TYPOGRAPHY ────────────────────────────────────────── */
+section {
+  background: #000;
+  border: 2px solid var(--brand-teal);
+  border-radius: 6px;
+  padding: 0.5rem;
+}
+section h2 {
+  position: relative;
+  margin-bottom: 1rem;
+  color: var(--brand-teal);
+  text-align: center;
+  padding-bottom: 0.6rem;
+}
+section h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  height: 4px;
+  background: var(--brand-teal);
+  width: 0;
+  animation: drawLineReverse 2s ease-out forwards;
+}
+@keyframes drawLineReverse {
+  to { width: 100%; }
+}
+
+/* ─── CHAT IFRAME & ACTIONS ──────────────────────────────────────── */
+.chat iframe {
+  width: 100%;
+  height: 1200px;
+  border: none;
+  border-radius: 4px;
+  margin-top: 0.4rem;
+}
+.chat-actions {
+  text-align: center;
+}
+.popout-btn {
+  display: inline-block;
+  margin: 0.5rem auto;
+  padding: 0.5rem 2rem;
+  font-size: 1rem;
+  background: var(--brand-teal);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* ─── LIVE PLAYER ───────────────────────────────────────────────── */
+.live-player {
+  background: #000;
+  border: 2px solid var(--brand-teal);
+  border-radius: 6px;
+  padding: 0.5rem;
+  text-align: center;
+}
+.live-player iframe,
+.live-player audio {
+  width: 100%;
+  height: 300px;
+  max-height: 55vh;
+  border: none;
+  border-radius: 4px;
+  margin: 0 auto 1rem;
+  display: block;
+}
+.player-container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+#now-archive {
+  font-weight: bold;
+  color: var(--brand-teal);
+  font-size: 1.5rem;
+  margin: 0.3rem 0 1rem;
+}
+
+/* ─── CURRENT DJ ARTWORK ───────────────────────────────────────── */
+#now-art {
+  width: 100%;
+  max-width: 450px;
+  border-radius: 8px;
+  object-fit: cover;
+  display: block;
+  margin: 1rem auto;
+}
+
+/* ─── MIXCLOUD ARCHIVE ─────────────────────────────────────────── */
+.mixcloud {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 0.5rem;
+}
+#mixcloud-list {
+  flex: 1;
+  overflow-y: auto;
+  max-height: 1900px;
+  padding-right: 5px;
+  scroll-behavior: smooth;
+  margin-top: 0.4rem;
+}
+#mixcloud-list iframe {
+  width: 100%;
+  height: 120px;
+  margin-bottom: 0.5rem;
+  border: none;
+}
+.add-mixcloud {
+  text-align: center;
+  padding-top: 0.5rem;
+}
+.add-mixcloud input,
+.add-mixcloud button {
+  font-size: 1rem;
+}
+.add-mixcloud input {
+  width: 80%;
+  max-width: 600px;
+  padding: 0.5rem;
+}
+.add-mixcloud button {
+  margin-top: 0.5rem;
+  padding: 0.5rem 2rem;
+  background: var(--brand-teal);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* ─── WEEKLY SCHEDULE ──────────────────────────────────────────── */
+.schedule {
+  background: #111;
+  border-radius: 6px;
+  padding: 0 1rem 1rem;
+  overflow-y: auto;
+  font-size: 1.4rem;
+  line-height: 1.4;
+}
+.schedule-heading {
+  position: sticky;
+  top: 0;
+  background: #111;
+  z-index: 10;
+  padding: 0.4rem 0;
+  font-size: 1.5rem;
+  border-bottom: 0.4px solid var(--brand-teal);
+}
+
+/* ─── FOOTER BANNER ────────────────────────────────────────────── */
+.banner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--brand-teal);
+  padding: 1rem;
+}
+.banner a {
+  flex: 1;
+  text-align: center;
+  text-decoration: none;
+  color: #000;
+  font-weight: 700;
+  font-size: 1.4rem;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  padding: 0.5rem 1rem;
+}
+.banner a:hover {
+  color: var(--text-light);
+}
+
+/* ─── RESPONSIVE GIF SIZING ─────────────────────────────────────── */
+@media (max-width: 1200px) {
+  :root {
+    --gif-height: 200px;
+    --gif-width: 16%;
+  }
+}
+@media (max-width: 768px) {
+  :root {
+    --gif-height: 150px;
+    --gif-width: 20%;
+  }
+}
+@media (max-width: 480px) {
+  :root {
+    --gif-height: 120px;
+    --gif-width: 30%;
+  }
+}
+
+/* ─── MOBILE LAYOUT OVERWRITES ──────────────────────────────────── */
+@media (max-width: 768px) {
+  /* Header adjustments */
+  header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  header .logo {
+    max-width: 180px;
+    margin-bottom: 1.5rem;
+  }
+  header .title h1 {
+    font-size: 1.8rem;
+    line-height: 1.2;
+  }
+  header .title .tagline {
+    font-size: 1rem;
   }
 
-  /* Each nav‐item sits on top of that solid bar */
-  #main-nav .nav-item {
-    flex: 1 !important;
-    position: relative;
-    z-index: 1;
-  }
-  #main-nav .nav-left   { text-align: left   !important; }
-  #main-nav .nav-center { text-align: center !important; }
-  #main-nav .nav-right  { text-align: right  !important; }
-
-  #main-nav a {
-    color: #fff !important;
-    font-family: 'Bebas Neue', sans-serif !important;
-    font-size: 2rem !important;
-    text-transform: uppercase !important;
-    text-decoration: none !important;
-    margin: 0 0.5rem !important;
-  }
-  #main-nav .social-icon {
-    margin-left: 0.5rem !important;
-    font-size: 1.2rem !important;
-    vertical-align: middle !important;
+  /* Single-column flow */
+  .grid-container {
+    display: flex;
+    flex-direction: column;
+    padding: 0 0.5rem;
   }
 
-  /* ─── MOBILE OVERRIDE: force ALL THREE links to show at ≤768px ─────────────────── */
-  @media (max-width: 768px) {
-    #main-nav .nav-left,
-    #main-nav .nav-center,
-    #main-nav .nav-right {
-      display: inline-block !important;
-      width: auto !important;
-      margin: 0 0.25rem !important;
-    }
-
-    /* If you want them to wrap onto multiple lines on very narrow phones: */
-    #main-nav {
-      flex-wrap: wrap !important;
-    }
-    #main-nav .nav-item {
-      flex: 100% !important;
-      text-align: center !important;
-      margin: 0.25rem 0 !important;
-    }
+  /* Remove Mixcloud entirely on mobile */
+  .mixcloud {
+    display: none !important;
   }
 
-  /* ─── DESKTOP: no changes needed here ───────────────────────────────────────── */
-  @media (min-width: 769px) {
-    #main-nav .nav-left,
-    #main-nav .nav-right {
-      display: none !important;
-    }
-    #main-nav .nav-center {
-      display: block      !important;
-      width: 100%         !important;
-      text-align: center !important;
-    }
-    #main-nav .nav-center a {
-      display: inline-block !important;
-      margin: 0 auto       !important;
-    }
+  /* Re‐order so that Live → Chat → Schedule */
+  .live-player { order: 1; }
+  .chat        { order: 2; }
+  .schedule    { order: 3; }
+
+  /* Tweak chat iframe */
+  .chat iframe {
+    height: 70vh;
+    max-height: 70vh;
   }
-</style>
 
-  <!-- Other head scripts -->
-  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js" defer></script>
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-3MSGZZ5QL6"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}  
-    gtag('js', new Date());
-    gtag('config', 'G-3MSGZZ5QL6');
-  </script>
-</head>
+  /* Schedule stays scrollable */
+  .schedule {
+    overflow-y: auto;
+  }
 
-<body>
-  <!-- ─── HEADER ──────────────────────────────────────────────────────────── -->
-  <header class="header-banner">
-    <div class="header-gif-right"></div>
-    <div class="header-gif-left"></div>
+  /* Hide any leftover desktop‐only buttons */
+  #popOutBtn,
+  header .logo-container:last-of-type {
+    display: none;
+  }
 
-    <div class="logo-container">
-      <img
-        class="logo"
-        src="/images/logo.png"
-        alt="Cutters Choice Radio Logo"
-        loading="lazy"
-      >
-    </div>
+  /* Chat-modal remains available */
+  #chatModal {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: rgba(0,0,0,0.9);
+    display: none;
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+  }
+  #chatModal .modal-content {
+    width: 100%; height: 100%;
+  }
+  #chatModal iframe {
+    width: 100%; height: 100%;
+    border: none; border-radius: 4px;
+  }
+  #chatModal .close-btn {
+    position: absolute;
+    top: 1rem; right: 1rem;
+    background: var(--brand-teal);
+    color: #fff;
+    border: none;
+    padding: 0.5rem;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    z-index: 10000;
+  }
+}
 
-    <div class="title">
-      <h1>Cutters Choice Radio</h1>
-      <p class="tagline">The home of relentless flavas and significant bangers!</p>
-    </div>
+/* ─── DESKTOP LAYOUT OVERWRITES ──────────────────────────────────── */
+@media (min-width: 600px) {
+  .grid-container {
+    grid-template-columns: 1fr 1.5fr;
+  }
+  .banner {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
+@media (min-width: 769px) {
+  .live-player iframe,
+  .live-player audio {
+    height: 600px;
+    max-height: 150vh;
+  }
+  #slideshow {
+    grid-column: 1 / -1;
+    width: 100%;
+    height: 500px;
+    transform: none;
+    max-width: none;
+    max-height: 100vh;
+  }
+  #slideshow > * {
+    height: 100%;
+  }
+  .grid-container {
+    grid-template-columns: 1fr 1.5fr 1fr 1fr;
+  }
+  .chat iframe {
+    height: 1200px;
+  }
+}
+@media (min-width: 900px) {
+  header .title h1 {
+    font-size: 8rem;
+  }
+  header .title .tagline {
+    font-size: 2.45rem;
+  }
+  header .logo {
+    height: 200px;
+    max-width: 270px;
+  }
+  #now-art {
+    max-width: 600px;
+  }
+}
+/* ─── DESKTOP ONLY: HIDE THE CHAT-SECTION POP-OUT BUTTON ────────────── */
+@media only screen and (min-width: 769px) {
+  /* this targets the extra pop-out inside the chat section */
+  section.chat .chat-actions {
+    display: none !important;
+  }
+}
 
-    <div class="logo-container">
-      <img
-        class="logo"
-        src="/images/logo.png"
-        alt="Cutters Choice Radio Logo"
-        loading="lazy"
-      >
-    </div>
-  </header>
+/* ─── MIXCLOUD DELETE LINK STYLES ─────────────────────────────────────────── */
+.mixcloud-item { position: relative; }
+.remove-link {
+  display: block;
+  text-align: right;
+  font-size: 0.9rem;
+  color: var(--brand-teal);
+  text-decoration: underline;
+  margin-top: 0.3rem;
+  cursor: pointer;
+}
+.remove-link:hover {
+  color: #5A8785;
+  text-decoration: #5A8785;
+}
 
-  <!-- ─── NAV ─────────────────────────────────────────────────────────────── -->
-  <nav id="main-nav">
-  <div class="nav-item nav-left">
-    <a href="our-story.html">OUR STORY</a>
-  </div>
-  <div class="nav-item nav-center">
-    <a href="index-ourDJS.html">OUR DJS</a>
-  </div>
-  <div class="nav-item nav-right">
-    <!-- MERCH now points at merch.html -->
-    <a href="merch.html">MERCH</a>
-    <a href="https://facebook.com/cutterschoiceradio" target="_blank" class="social-icon">
-      <i class="fab fa-facebook-f"></i>
-    </a>
-    <a href="https://instagram.com/cutterschoiceradio" target="_blank" class="social-icon">
-      <i class="fab fa-instagram"></i>
-    </a>
-  </div>
-</nav>
+/* ─── MOBILE ONLY: hide in-chat pop-out, show player pop-out ───────── */
+@media (max-width: 768px) {
+  /* hide the duplicate button under the chat iframe */
+  section.chat .chat-actions {
+    display: none !important;
+  }
 
-  <!-- ─── MAIN GRID CONTENT ──────────────────────────────────────────────── -->
-  <div class="grid-container">
-    <!-- CHAT SECTION -->
-    <section class="chat">
-      <h2>Cutters Chat</h2>
-      <iframe
-        title="Cutters Choice Radio Chat"
-        src="https://app.radiocult.fm/embed/chat/cutters-choice-radio?theme=midnight&primaryColor=%235A8785&corners=sharp"
-        width="100%" height="700" frameborder="0"
-        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-        seamless>
-      </iframe>
-      <div class="chat-actions">
-        <button class="popout-btn" onclick="openChatPopup()">Pop Out Chat</button>
-      </div>
-      <div class="rc-user-list-container">
-        <div class="rc-user-list"></div>
-      </div>
-    </section>
+  /* show your mobile chat button under the player */
+  #chatPopupBtn {
+    display: inline-block !important;
+    margin: 0.5rem auto 1rem !important;
+  }
+}
 
-    <!-- LIVE PLAYER SECTION -->
-    <section class="live-player">
-      <h2 id="now-dj">Live Now</h2>
-      <div class="player-container">
-        <iframe id="inlinePlayer"
-          title="Cutters Choice Radio player"
-          src="https://app.radiocult.fm/embed/square-player/cutters-choice-radio?theme=midnight&primaryColor=%235A8785&corners=sharp"
-          allow="autoplay" loading="lazy">
-        </iframe>
-        <div id="now-archive">Loading archive show…</div>
-        <button id="popOutBtn" class="popout-btn">Pop Out Player</button>
-        <button id="chatPopupBtn" class="popout-btn chat-btn-mobile" onclick="openChatPopup()">Chat</button>
-      </div>
-      <h3>This Week’s Shows</h3>
-      <img
-        id="now-art"
-        src="https://i.imgur.com/EHhS47F.png"
-        alt="Current DJ Artwork"
-        loading="lazy"
-      >
-    </section>
+/* ─── DESKTOP ONLY: show in-chat pop-out, hide player pop-out ───────── */
+@media (min-width: 769px) {
+  /* show the built-in chat button under the chat iframe */
+  section.chat .chat-actions {
+    display: block !important;
+  }
 
-    <!-- SCHEDULE SECTION -->
-    <section class="schedule">
-      <h2 class="schedule-heading">This Week’s Lineup</h2>
-      <div class="schedule-scroll" id="schedule-container">
-        <p>Loading this week’s schedule…</p>
-      </div>
-    </section>
+  /* hide your extra button under the player */
+  #chatPopupBtn {
+    display: none !important;
+  }
+}
+/* ─── MIXCLOUD DELETE LINK STYLES ─────────────────────────────────── */
+.mixcloud-item { position: relative; }
+/* hide for everyone by default */
+.remove-link {
+  display: none !important;
+  /* (you can drop the rest of the styling if you like,
+     or leave text-decoration/color so it’s ready to go) */
+  text-align: right;
+  font-size: 0.9rem;
+  color: var(--brand-teal);
+  text-decoration: underline;
+  margin-top: 0.3rem;
+  cursor: pointer;
+}
 
-    <!-- MIXCLOUD ARCHIVE SECTION -->
-    <section class="mixcloud">
-      <h2>Latest Archived Shows</h2>
-      <div id="mixcloud-list"></div>
-      <div class="add-mixcloud">
-        <input id="mixcloud-url" type="text" placeholder="Paste Mixcloud URL here…">
-        <button onclick="addMixcloud()">Add Show</button>
-      </div>
-    </section>
-  </div> <!-- end grid-container -->
+/* only show when in admin mode */
+.admin-mode .remove-link {
+  display: inline-block !important;
+}
 
-  <!-- ─── FOOTER ─────────────────────────────────────────────────────────── -->
-  <footer class="banner"></footer>
-
-  <!-- Your scripts -->
-  <script src="script.js?v=1748662864315" defer></script>
-  <script src="slideshow.js?v=1748662864315" defer></script>
-
-  <!-- GIF‐SWAP SCRIPT: alternates GIF sets every 2 animation loops -->
-  <script>
-    (function(){
-      const right = document.querySelector('.header-gif-right');
-      const left  = document.querySelector('.header-gif-left');
-      let loopCount = 0;
-      const set1 = [
-        "url('/images/Untitled%20design(4).gif')",
-        "url('/images/Untitled%20design(5).gif')"
-      ];
-      const set2 = [
-        "url('/images/Untitled%20design(7).gif')",
-        "url('/images/Untitled%20design(8).gif')"
-      ];
-      let currentSet = set1;
-      right.style.backgroundImage = currentSet[0];
-      left.style.backgroundImage  = currentSet[1];
-      right.addEventListener('animationiteration', () => {
-        loopCount++;
-        if (loopCount % 2 === 0) {
-          currentSet = (currentSet === set1) ? set2 : set1;
-          right.style.backgroundImage = currentSet[0];
-          left.style.backgroundImage  = currentSet[1];
-        }
-      });
-    })();
-  </script>
-</body>
-</html>
+/* ─── MOBILE-ONLY LOGO SIZING ──────────────────────────────────── */
+@media only screen and (max-width: 768px) {
+  header .logo {
+    /* smaller height for mobile */
+    height: 100px !important;
+    max-width: 100px !important;
+    margin-bottom: 1.5rem !important;
+    width: auto !important;
+  }
+}
