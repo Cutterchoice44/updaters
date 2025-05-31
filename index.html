@@ -10,7 +10,7 @@
   <title>Cutters Choice Radio</title>
   
   <!-- Main stylesheet (bump v= to bust cache) -->
-  <link rel="stylesheet" href="style.css?v=1748569211841">
+  <link rel="stylesheet" href="style.css?v=1748649274040">
 
   <!-- Bebas Neue & FontAwesome -->
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
@@ -22,52 +22,63 @@
     :root { --brand-teal: #5A8785; }
 
     /* ─── NAV ───────────────────────────────────────────────────────── */
-    #main-nav {
-      display: flex !important;
-      justify-content: space-between !important;
-      align-items: center !important;
-      width: 100% !important;
-      padding: 0.56rem 0.75rem !important;
-      margin: 0 !important;
-      box-sizing: border-box !important;
+   <style>
+  :root { --brand-teal: #5A8785; }
 
-      border-top:    2px solid var(--brand-teal) !important;
-      border-bottom: 2px solid var(--brand-teal) !important;
-    }
-    #main-nav .nav-item { flex: 1 !important; }
-    #main-nav .nav-left   { text-align: left !important; }
-    #main-nav .nav-center { text-align: center !important; }
-    #main-nav .nav-right  { text-align: right !important; }
+  /* ─── NAV ───────────────────────────────────────────────────────── */
+  #main-nav {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    width: 100% !important;
+    padding: 0.25rem 0.75rem !important;
+    margin: 0 !important;
+    box-sizing: border-box 
 
-    #main-nav a {
-      color: #fff !important;
-      font-family: 'Bebas Neue', sans-serif !important;
-      font-size: 2rem !important;
-      text-transform: uppercase !important;
-      text-decoration: none !important;
-      margin: 0 0.5rem !important;
+    /* Force a solid teal background so bricks never show */
+    background-color: var(--brand-teal) !important;
+    /* Sit on top of any underlying brick image */
+    position: relative;
+    z-index: 1000;
+
+    border-top:    2px solid var(--brand-teal) !important;
+    border-bottom: 2px solid var(--brand-teal) !important;
+  }
+  #main-nav .nav-item { flex: 1 !important; }
+  #main-nav .nav-left   { text-align: left !important; }
+  #main-nav .nav-center { text-align: center !important; }
+  #main-nav .nav-right  { text-align: right !important; }
+
+  #main-nav a {
+    color: #fff !important;
+    font-family: 'Bebas Neue', sans-serif !important;
+    font-size: 2rem !important;
+    text-transform: uppercase !important;
+    text-decoration: none !important;
+    margin: 0 0.5rem !important;
+  }
+  #main-nav .social-icon {
+    margin-left: 0.5rem !important;
+    font-size: 1.2rem !important;
+    vertical-align: middle !important;
+  }
+
+  @media (max-width: 768px) {
+    #main-nav .nav-left,
+    #main-nav .nav-right {
+      display: none !important;
     }
-    #main-nav .social-icon {
-      margin-left: 0.5rem !important;
-      font-size: 1.2rem !important;
-      vertical-align: middle !important;
+    #main-nav .nav-center {
+      display: block      !important;
+      width: 100%         !important;
+      text-align: center !important;
     }
-    @media (max-width: 768px) {
-      #main-nav .nav-left,
-      #main-nav .nav-right {
-        display: none !important;
-      }
-      #main-nav .nav-center {
-        display: block      !important;
-        width: 100%         !important;
-        text-align: center !important;
-      }
-      #main-nav .nav-center a {
-        display: inline-block !important;
-        margin: 0 auto       !important;
-      }
+    #main-nav .nav-center a {
+      display: inline-block !important;
+      margin: 0 auto       !important;
     }
-  </style>
+  }
+</style>
 
   <!-- Other head scripts -->
   <script src="https://cdn.socket.io/4.7.2/socket.io.min.js" defer></script>
@@ -112,23 +123,23 @@
 
   <!-- ─── NAV ─────────────────────────────────────────────────────────────── -->
   <nav id="main-nav">
-    <div class="nav-item nav-left">
-   <a href="our-story.html">OUR STORY</a>
-    </div>
-    <div class="nav-item nav-center">
-      <a href="index-ourDJS.html">OUR DJS</a>
-    </div>
-    <div class="nav-item nav-right">
-      <!-- MERCH now points at merch.html -->
-      <a href="merch.html">MERCH</a>
-      <a href="https://facebook.com/cutterschoiceradio" target="_blank" class="social-icon">
-        <i class="fab fa-facebook-f"></i>
-      </a>
-      <a href="https://instagram.com/cutterschoiceradio" target="_blank" class="social-icon">
-        <i class="fab fa-instagram"></i>
-      </a>
-    </div>
-  </nav>
+  <div class="nav-item nav-left">
+    <a href="our-story.html">OUR STORY</a>
+  </div>
+  <div class="nav-item nav-center">
+    <a href="index-ourDJS.html">OUR DJS</a>
+  </div>
+  <div class="nav-item nav-right">
+    <!-- MERCH now points at merch.html -->
+    <a href="merch.html">MERCH</a>
+    <a href="https://facebook.com/cutterschoiceradio" target="_blank" class="social-icon">
+      <i class="fab fa-facebook-f"></i>
+    </a>
+    <a href="https://instagram.com/cutterschoiceradio" target="_blank" class="social-icon">
+      <i class="fab fa-instagram"></i>
+    </a>
+  </div>
+</nav>
 
   <!-- ─── MAIN GRID CONTENT ──────────────────────────────────────────────── -->
   <div class="grid-container">
@@ -195,8 +206,8 @@
   <footer class="banner"></footer>
 
   <!-- Your scripts -->
-  <script src="script.js?v=1748569211841" defer></script>
-  <script src="slideshow.js?v=1748569211841" defer></script>
+  <script src="script.js?v=1748649274040" defer></script>
+  <script src="slideshow.js?v=1748649274040" defer></script>
 
   <!-- GIF‐SWAP SCRIPT: alternates GIF sets every 2 animation loops -->
   <script>
