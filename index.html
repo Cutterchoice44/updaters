@@ -62,13 +62,14 @@
       vertical-align: middle !important;
     }
 
-    /* ─── MOBILE OVERRIDE: horizontal nav + smaller fonts at ≤768px ─────────────────── */
+    /* ─── MOBILE OVERRIDE: horizontal nav, smaller fonts, remove icons, reduce height ─────────────────── */
     @media (max-width: 768px) {
       #main-nav {
         flex-direction: row !important;
         justify-content: space-between !important;
-        /* prevent wrapping onto multiple lines */
         flex-wrap: nowrap !important;
+        /* reduce vertical padding for mobile */
+        padding: 0.125rem 0.5rem !important;
       }
       #main-nav .nav-item {
         flex: 1 !important;
@@ -76,13 +77,12 @@
         margin: 0 !important;
       }
       #main-nav a {
-        font-size: 1.2rem !important;
+        font-size: 1rem !important;
         margin: 0 0.25rem !important;
       }
-      /* Slightly reduce social-icon size on mobile */
+      /* Hide social icons on mobile */
       #main-nav .social-icon {
-        font-size: 1rem !important;
-        margin-left: 0.25rem !important;
+        display: none !important;
       }
     }
   </style>
