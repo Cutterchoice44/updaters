@@ -82,7 +82,6 @@
       margin: 0.25rem 0 !important;
     }
   }
-    
   @media (max-width: 768px) {
     #main-nav .nav-left,
     #main-nav .nav-right {
